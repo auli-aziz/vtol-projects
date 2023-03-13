@@ -10,7 +10,7 @@ output the duration of time of parking
 */
 
 int main(){
-    int input, hours1, minutes1, hours2, minutes2;
+    int input, hours1, minutes1, seconds1, hours2, minutes2, seconds2;
 
     std::cout << "WELCOME TO THE PARKING METER 1.0" << std::endl;
     std::cout << "=====================================" << std::endl;
@@ -18,38 +18,48 @@ int main(){
     std::cin >> input;
     std::cout << "=====================================" << std::endl;
     if(input == 1){
-        std::cout << "Enter starting time (HH:MM): ";
-        std::cin >> std::setw(2) >> hours1; //setw comes from iomanip library and limits the input to 2 characters 
-        std::cin.ignore(); //ignores the ":" separator
+
+    //input time
+    do{
+        std::cout << "Enter starting time: ";
+        std::cin >> std::setw(2) >> hours1;
+        std::cin.ignore();
         std::cin >> std::setw(2) >> minutes1;
-
-        auto duration1 = std::chrono::seconds(hours1 * 3600 + minutes1 * 60);
-
-        auto h1 = std::chrono::duration_cast<std::chrono::hours>(duration1);
-        auto m1 = std::chrono::duration_cast<std::chrono::minutes>(duration1 % std::chrono::hours(1));
-
-        std::cout << "Start time: " << std::setfill('0') << std::setw(2) << h1.count() << ':'
-        << std::setfill('0') << std::setw(2) << m1.count() << std::endl;
-
-        std::cout << "Enter exit time (HH:MM): ";
+        seconds1 = hours1 * 3600 + minutes1 * 60;
+        
+        if(hours1 < 0 || minutes1 < 0 || seconds1 >= 86400)
+            std::cout << "Error! Invalid starting time" << "\n";
+    }while(hours1 < 0 || minutes1 < 0 || seconds1 >= 86400);
+    
+    do{
+        std::cout << "Enter exit time: ";
         std::cin >> std::setw(2) >> hours2;
         std::cin.ignore();
         std::cin >> std::setw(2) >> minutes2;
+        seconds2 = hours2 * 3600 + minutes2 * 60;
         
-        auto duration2 = std::chrono::seconds(hours2 * 3600 + minutes2 * 60);
+        if(hours2 < 0 || minutes2 < 0 || seconds2 >= 86400)
+            std::cout << "Error! Invalid exit time" << "\n";
+    }while(hours2 < 0 || minutes2 < 0 || seconds2 >= 86400);
 
-        auto h2 = std::chrono::duration_cast<std::chrono::hours>(duration2);
-        auto m2 = std::chrono::duration_cast<std::chrono::minutes>(duration2 % std::chrono::hours(1));
 
-        std::cout << "Exit time: " << std::setfill('0') << std::setw(2) << h2.count() << ':'
-        << std::setfill('0') << std::setw(2) << m2.count();
+    std::cout << "Start time: " << std::setfill('0') << std::setw(2) << hours1 << ':'
+    << std::setfill('0') << std::setw(2) << minutes1 << std::endl;
+    
+    std::cout << "Exit time: " << std::setfill('0') << std::setw(2) << hours2 << ':'
+    << std::setfill('0') << std::setw(2) << minutes2 << std::endl;
 
-        int start = hours1 * 3600 + minutes1 * 60;
-        int end = hours2 * 3600 + minutes2 * 60;
-        int diff = abs(end - start);
-        int diff_hours = diff / 3600;
-        int diff_minutes = diff % 3600;
+    //calculation (can be modularized)
+    int start = hours1 * 3600 + minutes1 * 60;
+    int end = hours2 * 3600 + minutes2 * 60;
+    int diff = abs(end - start);
+    std::cout << "Difference: " << diff << "\n";
+    int diff_hours = diff / 3600;
+    int diff_minutes = (diff % 3600) / 60;
 
-        std::cout << "Total parking time: ";
+    //ternary oparator idea for the s*
+    std::cout << "Total parking time: " << diff_hours << " hour(s) and " << diff_minutes << " minute(s) \n";
+
+    //fee calculation
     }
 }
