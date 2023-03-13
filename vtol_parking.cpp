@@ -11,6 +11,7 @@ output the duration of time of parking
 
 int main(){
     int input, hours1, minutes1, seconds1, hours2, minutes2, seconds2;
+    double total_fee = 0, initial_fee = 3000;
 
     std::cout << "WELCOME TO THE PARKING METER 1.0" << std::endl;
     std::cout << "=====================================" << std::endl;
@@ -21,7 +22,7 @@ int main(){
 
     //input time
     do{
-        std::cout << "Enter starting time: ";
+        std::cout << "Enter starting time (HH:MM): ";
         std::cin >> std::setw(2) >> hours1;
         std::cin.ignore();
         std::cin >> std::setw(2) >> minutes1;
@@ -32,7 +33,7 @@ int main(){
     }while(hours1 < 0 || minutes1 < 0 || seconds1 >= 86400);
     
     do{
-        std::cout << "Enter exit time: ";
+        std::cout << "Enter exit time (HH:MM): ";
         std::cin >> std::setw(2) >> hours2;
         std::cin.ignore();
         std::cin >> std::setw(2) >> minutes2;
@@ -49,6 +50,8 @@ int main(){
     std::cout << "Exit time: " << std::setfill('0') << std::setw(2) << hours2 << ':'
     << std::setfill('0') << std::setw(2) << minutes2 << std::endl;
 
+    std::cout << "=====================================" << std::endl;
+
     //calculation (can be modularized)
     int start = hours1 * 3600 + minutes1 * 60;
     int end = hours2 * 3600 + minutes2 * 60;
@@ -60,6 +63,15 @@ int main(){
     //ternary oparator idea for the s*
     std::cout << "Total parking time: " << diff_hours << " hour(s) and " << diff_minutes << " minute(s) \n";
 
-    //fee calculation
+    //fee calculation & output
+    if(diff_hours >= 1)
+        total_fee += initial_fee;
+        if(diff_hours >= 2){
+            total_fee += 1000 * (diff_hours - 1);
+            if(diff_minutes >= 1) total_fee += 1000;
+        }
+        std::cout << "Total payment: Rp" << total_fee << "\n";
+    }else{
+        std::cout << "Your parking is Free!";
     }
 }
