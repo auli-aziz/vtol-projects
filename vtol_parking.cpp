@@ -45,13 +45,6 @@ int main(){
                 std::cout << "Error! Invalid exit time" << "\n";
         }while(hours2 < 0 || minutes2 < 0 || seconds2 >= 86400);
 
-
-        std::cout << "Start time: " << std::setfill('0') << std::setw(2) << hours1 << ':'
-        << std::setfill('0') << std::setw(2) << minutes1 << std::endl;
-        
-        std::cout << "Exit time: " << std::setfill('0') << std::setw(2) << hours2 << ':'
-        << std::setfill('0') << std::setw(2) << minutes2 << std::endl;
-
         std::cout << "=====================================" << std::endl;
 
         //calculation (can be modularized)
