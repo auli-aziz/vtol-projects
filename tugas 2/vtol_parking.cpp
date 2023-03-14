@@ -10,17 +10,18 @@ output the duration of time of parking
 */
 
 int main(){
-    int input, hours1, minutes1, seconds1, hours2, minutes2, seconds2, start, end, diff,
-    diff_hours, diff_minutes;
+    int inputMenu, hours1, minutes1, seconds1, hours2, minutes2, seconds2, start, end, diff,
+    diff_hours, diff_minutes, days, diff_days;
     double total_fee = 0, initial_fee = 3000;
+    char inputDay;
 
     std::cout << "WELCOME TO THE PARKING METER 1.0" << std::endl;
     std::cout << "=====================================" << std::endl;
     std::cout << "Enter your option:\n1. START\n2. QUIT\nInput: ";
-    std::cin >> input;
+    std::cin >> inputMenu;
     std::cout << "=====================================" << std::endl;
     
-    if(input == 1){
+    if(inputMenu == 1){
 
         //input time
         do{
@@ -33,6 +34,13 @@ int main(){
             if(hours1 < 0 || minutes1 < 0 || seconds1 >= 86400)
                 std::cout << "Error! Invalid starting time" << "\n";
         }while(hours1 < 0 || minutes1 < 0 || seconds1 >= 86400);
+
+        std::cout << "Did you exit on a different day? (Y/n)";
+        std::cin >> inputDay;
+        if(inputDay == 'y' || inputDay == 'Y'){
+            std::cout << "Enter the amount of days parked: ";
+            std::cin >> days;
+        }
         
         do{
             std::cout << "Enter exit time (HH:MM): ";
@@ -44,13 +52,6 @@ int main(){
             if(hours2 < 0 || minutes2 < 0 || seconds2 >= 86400)
                 std::cout << "Error! Invalid exit time" << "\n";
         }while(hours2 < 0 || minutes2 < 0 || seconds2 >= 86400);
-
-
-        std::cout << "Start time: " << std::setfill('0') << std::setw(2) << hours1 << ':'
-        << std::setfill('0') << std::setw(2) << minutes1 << std::endl;
-        
-        std::cout << "Exit time: " << std::setfill('0') << std::setw(2) << hours2 << ':'
-        << std::setfill('0') << std::setw(2) << minutes2 << std::endl;
 
         std::cout << "=====================================" << std::endl;
 
