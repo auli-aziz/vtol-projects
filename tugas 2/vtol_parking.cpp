@@ -35,8 +35,14 @@ int main(){
                 std::cout << "Error! Invalid starting time" << "\n";
         }while(hours1 < 0 || minutes1 < 0 || seconds1 >= 86400);
 
-        std::cout << "Did you exit on a different day? (Y/n)";
-        std::cin >> inputDay;
+        std::cout << "Did you exit on a different day? (Y/n) ";
+        
+        do{
+            std::cin >> inputDay;
+            if(!(inputDay == 'y' || inputDay == 'Y' || inputDay == 'n' || inputDay == 'N')) 
+                std::cout << "Invalid input! ";
+        }while(!(inputDay == 'y' || inputDay == 'Y' || inputDay == 'n' || inputDay == 'N'));
+
         if(inputDay == 'y' || inputDay == 'Y'){
             std::cout << "Enter the amount of days parked: ";
             std::cin >> days;
@@ -56,25 +62,43 @@ int main(){
         std::cout << "=====================================" << std::endl;
 
         //calculation (can be modularized)
-        start = hours1 * 3600 + minutes1 * 60;
-        end = hours2 * 3600 + minutes2 * 60;
+        start = seconds1;
+
+        if(days >= 1){
+            end = days * 86400 + seconds2;
+        }else{
+            end = seconds2;
+        }
+
         diff = abs(end - start);
-        diff_hours = diff / 3600;
+        diff_days = diff / 86400;
+        diff_hours = (diff % 86400) / 3600;
         diff_minutes = (diff % 3600) / 60;
 
+
         //ternary oparator idea for the s*
-        std::cout << "Total parking time: " << diff_hours << " hour(s) and " << diff_minutes << " minute(s) \n";
-        
+        std::cout << "Total parking time: " << diff_days << " day(s) " << diff_hours << 
+        " hour(s) and " << diff_minutes << " minute(s) \n";
+
         //fee calculation & output
-        if(diff_hours != 0){
+        if(diff_hours != 0 || diff_days != 0){
             total_fee += initial_fee;
-            if(diff_hours >= 2){
-                total_fee += 1000 * (diff_hours - 1);
+            if(diff_hours >= 2 || diff_days != 0){
+                if(days == 0) total_fee += 1000 * (diff_hours - 1);
+                else total_fee += days * 23000;
+                //if parking time is x hours and y minutes it adds additional fee
                 if(diff_minutes >= 1) total_fee += 1000;
+            }
+            
+            //discount fee
+            if(diff_days >= 1){
+                total_fee -= days * 10000;
             }
             std::cout << "Total payment: Rp" << total_fee << "\n";
         } else{
             std::cout << "Your parking is still Free!";
         }
+    }else{
+        std::cout << "THANK YOU FOR USING PARKING METER 1.0 \n";
     }
 }
