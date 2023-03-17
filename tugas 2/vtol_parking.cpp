@@ -1,14 +1,16 @@
 #include <iostream>
 #include <iomanip>
+#include <cstdlib>
 
 /*
-the first hour is rp 3000
-the next hour fee is 1000/hour
-if more than 24h, dicount/reduce by 10 000 per 24h
+the first hour is Rp 3 000
+the next hour fee is Rp 1 000/hour
+if more than 24h, dicount/reduce by Rp 10 000 per 24h
 output the duration of time of parking
 */
 
 void parking_meter();
+void day_input(char inputDay, int days);
 
 int main(){
     int inputMenu = 1, loop = 1;
@@ -33,7 +35,7 @@ int main(){
 
 void parking_meter(){
     int hours1 = 0, minutes1 = 0, seconds1 = 0, hours2 = 0, minutes2 = 0, seconds2 = 0, start = 0, end = 0, diff = 0, diff_hours = 0, diff_minutes = 0, days = 0, diff_days = 0, total_fee = 0;
-    char inputDay;
+    char inputDay = 'x';
     
     //input time
     do{
@@ -46,19 +48,14 @@ void parking_meter(){
         if(hours1 < 0 || minutes1 < 0 || seconds1 >= 86400)
             std::cout << "Error! Invalid starting time" << "\n";
     }while(hours1 < 0 || minutes1 < 0 || seconds1 >= 86400);
-
-    std::cout << "Did you exit on a different day? (Y/n) ";
     
-    do{
-        std::cin >> inputDay;
-        if(!(inputDay == 'y' || inputDay == 'Y' || inputDay == 'n' || inputDay == 'N')) 
-            std::cout << "Invalid input! ";
-    }while(!(inputDay == 'y' || inputDay == 'Y' || inputDay == 'n' || inputDay == 'N'));
+    std::cout << "Did you exit after more than 24h? (Y/n) "; 
+    std::cin >> inputDay;
 
     if(inputDay == 'y' || inputDay == 'Y'){
-        std::cout << "Enter the amount of days parked: ";
-        std::cin >> days;
-    }
+            std::cout << "Enter the amount of days parked: ";
+            std::cin >> days;
+        }                       
     
     do{
         std::cout << "Enter exit time (HH:MM): ";
@@ -75,14 +72,16 @@ void parking_meter(){
 
     //calculation (can be modularized)
     start = seconds1;
-
-    if(days >= 1){
+    if(diff_days >= 1){
         end = (days * 86400) + seconds2;
     }else{
         end = seconds2;
     }
 
-    diff = abs(end - start);
+    diff = end - start;
+    if(diff < 0 && seconds1 > seconds2){
+        diff = 86400 + diff;
+    }
     diff_days = diff / 86400;
     diff_hours = (diff % 86400) / 3600;
     diff_minutes = (diff % 3600) / 60;
