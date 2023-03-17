@@ -1,6 +1,5 @@
 #include <iostream>
 #include <iomanip>
-#include <cstdlib>
 
 /*
 the first hour is Rp 3 000
@@ -10,7 +9,8 @@ output the duration of time of parking
 */
 
 void parking_meter();
-void day_input(char inputDay, int days);
+void time_output(int diff_days, int diff_hours, int diff_minutes);
+void fee_output(int total_fee);
 
 int main(){
     int inputMenu = 1, loop = 1;
@@ -43,7 +43,6 @@ void parking_meter(){
         std::cin >> std::setw(2) >> hours1;
         std::cin.ignore();
         std::cin >> std::setw(2) >> minutes1;
-        seconds1 = (hours1 * 3600) + (minutes1 * 60);
         
         if(hours1 < 0 || minutes1 < 0 || seconds1 >= 86400)
             std::cout << "Error! Invalid starting time" << "\n";
@@ -62,7 +61,6 @@ void parking_meter(){
         std::cin >> std::setw(2) >> hours2;
         std::cin.ignore();
         std::cin >> std::setw(2) >> minutes2;
-        seconds2 = (hours2 * 3600) + (minutes2 * 60);
         
         if(hours2 < 0 || minutes2 < 0 || seconds2 >= 86400)
             std::cout << "Error! Invalid exit time" << "\n";
@@ -70,13 +68,11 @@ void parking_meter(){
 
     std::cout << "=====================================" << std::endl;
 
-    //calculation (can be modularized)
+    //time calculation
+    seconds1 = (hours1 * 3600) + (minutes1 * 60);
+    seconds2 = (hours2 * 3600) + (minutes2 * 60);
     start = seconds1;
-    if(diff_days >= 1){
-        end = (days * 86400) + seconds2;
-    }else{
-        end = seconds2;
-    }
+    (diff_days >= 1)? end = (days * 86400) + seconds2:end = seconds2;
 
     diff = end - start;
     if(diff < 0 && seconds1 > seconds2){
@@ -86,9 +82,8 @@ void parking_meter(){
     diff_hours = (diff % 86400) / 3600;
     diff_minutes = (diff % 3600) / 60;
 
-    //ternary oparator idea for the s*
-    std::cout << "Total parking time: " << diff_days << " day(s) " << diff_hours << 
-    " hour(s) and " << diff_minutes << " minute(s) \n";
+    //time output
+    time_output(diff_days, diff_hours, diff_minutes);
 
     //fee calculation & output
     if(diff_hours != 0 || diff_days != 0){
@@ -107,8 +102,17 @@ void parking_meter(){
         if(diff_days >= 1){
             total_fee -= (days * 10000);
         }
-        std::cout << "Total payment: Rp" << total_fee << "\n";
+        fee_output(total_fee);
     } else{
         std::cout << "Your parking is still Free!";
     }
+}
+
+void time_output(int diff_days, int diff_hours, int diff_minutes){
+    std::cout << "Total parking time: " << diff_days << " day(s) " << diff_hours << 
+    " hour(s) and " << diff_minutes << " minute(s) \n";
+}
+
+void fee_output(int total_fee){
+    std::cout << "Total payment: Rp" << total_fee << "\n";
 }
