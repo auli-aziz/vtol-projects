@@ -72,11 +72,14 @@ void parking_meter(){
     seconds1 = (hours1 * 3600) + (minutes1 * 60);
     seconds2 = (hours2 * 3600) + (minutes2 * 60);
     start = seconds1;
-    (diff_days >= 1)? end = (days * 86400) + seconds2:end = seconds2;
+    (days >= 1)? end = (days * 86400) + seconds2:end = seconds2;
 
     diff = end - start;
     if(diff < 0 && seconds1 > seconds2){
         diff = 86400 + diff;
+    }
+    if(diff == 0){
+        diff = 86400*days;
     }
     diff_days = diff / 86400;
     diff_hours = (diff % 86400) / 3600;
