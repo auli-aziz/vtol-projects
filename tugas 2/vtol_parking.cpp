@@ -95,7 +95,7 @@ void parking_meter(){
             if(days == 0) 
                 total_fee += 1000 * (diff_hours - 1);
             else 
-                total_fee += (days * 23000);
+                total_fee += (days * 23000) + 1000;
             //if parking time is x hours and >0 minutes it adds 1000
             if(diff_minutes >= 1) 
                 total_fee += 1000;
