@@ -52,7 +52,7 @@ void parking_meter(){
     std::cin >> inputDay;
 
     if(inputDay == 'y' || inputDay == 'Y'){
-            std::cout << "Enter the amount of days parked: ";
+            std::cout << "Enter the amount of day(s) parked: ";
             std::cin >> days;
         }                       
     
@@ -107,7 +107,7 @@ void parking_meter(){
         }
         fee_output(total_fee);
     } else{
-        std::cout << "Your parking is still Free!";
+        std::cout << "Your parking is still Free! \n";
     }
 }
 
